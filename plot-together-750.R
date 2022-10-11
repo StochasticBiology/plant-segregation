@@ -13,13 +13,16 @@ subplots0 = subplots1 = subplots2 = list()
 mtplot.ne = 50
 ptplot.ne = 7
 
+gsf = 3
+ressf = 4.5
+
 defaultplot.max = 35
 mtplot.max = 150
 
 # set of vectors encoding different experimental setups -- used for experiment-specific tweaks to plotting style
 # vector of filenames
 expts = c("old-mito-MSH1",
-          "old-mito-WILD", "new-mito-WILD", "all-mito-WILD",
+          "old-mito-WILD", "new-mito-WILD", "new-mito-WILD",
           "old-plastid-MSH1", "new-plastid-MSH1", "all-plastid-MSH1", 
           "new-mito-WILD",
           "new-plastid-MSH1")
@@ -27,8 +30,8 @@ expts = c("old-mito-MSH1",
 priors = c(0,
            0, 0, 0,
            0, 0, 0,
-           -1, 
-           -1)
+           0, 
+           0)
 # vector of organelle being studied (0 -- mt, 1 -- pt)
 organelles = c(0,
                0, 0, 0,
@@ -114,15 +117,16 @@ for(i in 1:length(expts)) {
   subplots1[[i]][[3]] = ggplot(df, aes(x=eff3, fill=factor(seed))) + geom_histogram(aes(y=..density..), position="dodge",bins=nbins) + xlim(xmin,xmax) +theme_classic() + theme(legend.position="none") 
   subplots1[[i]][[4]] = ggplot(df, aes(x=eff4, fill=factor(seed))) + geom_histogram(aes(y=..density..), position="dodge",bins=nbins) + xlim(xmin,xmax) +theme_classic() + theme(legend.position="none") 
   # model index
-  subplots1[[i]][[5]] = ggplot(df, aes(x=model, fill=factor(seed))) + geom_histogram(position="dodge") + theme_classic() + theme(legend.position="none") 
-
+  subplots1[[i]][[5]] = ggplot(df, aes(x=model, fill=factor(seed))) + geom_histogram(position="dodge") + scale_x_continuous(breaks = c(0,1,2)) + theme_classic() + theme(legend.position="none") 
+  subplots1[[i]][[6]] = subplots0[[i]][[7]]
+  
   # construct third plot set (all model indices, for just one seed)
   subplots2[[i]] = list()
   # individual effective division counts
-  subplots2[[i]][[1]] = ggplot(df[df$seed==1,], aes(x=eff1)) + geom_histogram(aes(y=..density..), position="dodge",bins=nbins) + xlim(xmin,xmax) +theme_classic() + theme(legend.position="none") + xlab("O -> EL")
-  subplots2[[i]][[2]] = ggplot(df[df$seed==1,], aes(x=eff2)) + geom_histogram(aes(y=..density..), position="dodge",bins=nbins) + xlim(xmin,xmax) +theme_classic() + theme(legend.position="none") + xlab("O -> LL")
-  subplots2[[i]][[3]] = ggplot(df[df$seed==1,], aes(x=eff3)) + geom_histogram(aes(y=..density..), position="dodge",bins=nbins) + xlim(xmin,xmax) +theme_classic() + theme(legend.position="none") + xlab("O -> INF")
-  subplots2[[i]][[4]] = ggplot(df[df$seed==1,], aes(x=eff4)) + geom_histogram(aes(y=..density..), position="dodge",bins=nbins) + xlim(xmin,xmax) +theme_classic() + theme(legend.position="none") + xlab("OM -> O")
+  subplots2[[i]][[1]] = ggplot(df[df$seed==1,], aes(x=eff1)) + geom_histogram(aes(y=..density..), position="dodge",bins=nbins) + xlim(xmin,xmax) +theme_classic() + theme(legend.position="none") + xlab("O → EL")
+  subplots2[[i]][[2]] = ggplot(df[df$seed==1,], aes(x=eff2)) + geom_histogram(aes(y=..density..), position="dodge",bins=nbins) + xlim(xmin,xmax) +theme_classic() + theme(legend.position="none") + xlab("O → LL")
+  subplots2[[i]][[3]] = ggplot(df[df$seed==1,], aes(x=eff3)) + geom_histogram(aes(y=..density..), position="dodge",bins=nbins) + xlim(xmin,xmax) +theme_classic() + theme(legend.position="none") + xlab("O → INF")
+  subplots2[[i]][[4]] = ggplot(df[df$seed==1,], aes(x=eff4)) + geom_histogram(aes(y=..density..), position="dodge",bins=nbins) + xlim(xmin,xmax) +theme_classic() + theme(legend.position="none") + xlab("OM → O")
   # model index
   
   df$exptindex = i
@@ -135,25 +139,25 @@ g.empty = ggplot() + theme_void()
 #grid.arrange(grobs = c(subplots0[[1]], subplots0[[8]], subplots0[[9]]), nrow=3)
 
 # plot old-new-all data
-m.g1 = ggplot(fulldf[fulldf$exptindex %in% c(2,3,4) & fulldf$seed == 1,], aes(x = eff1, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O -> EL")
-m.g2 = ggplot(fulldf[fulldf$exptindex %in% c(2,3,4) & fulldf$seed == 1,], aes(x = eff2, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O -> LL")
-m.g3 = ggplot(fulldf[fulldf$exptindex %in% c(2,3,4) & fulldf$seed == 1,], aes(x = eff3, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O -> INF")
-m.g4 = ggplot(fulldf[fulldf$exptindex %in% c(2,3,4) & fulldf$seed == 1,], aes(x = eff4, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("OM -> O")
-p.g1 = ggplot(fulldf[fulldf$exptindex %in% c(5,6,7) & fulldf$seed == 1,], aes(x = eff1, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,10) + xlab("O -> EL")
-p.g2 = ggplot(fulldf[fulldf$exptindex %in% c(5,6,7) & fulldf$seed == 1,], aes(x = eff2, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none")+ xlim(0,10) + xlab("O -> LL")
-p.g3 = ggplot(fulldf[fulldf$exptindex %in% c(5,6,7) & fulldf$seed == 1,], aes(x = eff3, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none")+ xlim(0,10) + xlab("O -> INF")
-p.g4 = ggplot(fulldf[fulldf$exptindex %in% c(5,6,7) & fulldf$seed == 1,], aes(x = eff4, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none")+ xlim(0,50) + xlab("OM -> O")
+m.g1 = ggplot(fulldf[fulldf$exptindex %in% c(2,3,4) & fulldf$seed == 1,], aes(x = eff1, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O → EL")
+m.g2 = ggplot(fulldf[fulldf$exptindex %in% c(2,3,4) & fulldf$seed == 1,], aes(x = eff2, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O → LL")
+m.g3 = ggplot(fulldf[fulldf$exptindex %in% c(2,3,4) & fulldf$seed == 1,], aes(x = eff3, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O → INF")
+m.g4 = ggplot(fulldf[fulldf$exptindex %in% c(2,3,4) & fulldf$seed == 1,], aes(x = eff4, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("OM → O")
+p.g1 = ggplot(fulldf[fulldf$exptindex %in% c(5,6,7) & fulldf$seed == 1,], aes(x = eff1, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,10) + xlab("O → EL")
+p.g2 = ggplot(fulldf[fulldf$exptindex %in% c(5,6,7) & fulldf$seed == 1,], aes(x = eff2, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none")+ xlim(0,10) + xlab("O → LL")
+p.g3 = ggplot(fulldf[fulldf$exptindex %in% c(5,6,7) & fulldf$seed == 1,], aes(x = eff3, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none")+ xlim(0,10) + xlab("O → INF")
+p.g4 = ggplot(fulldf[fulldf$exptindex %in% c(5,6,7) & fulldf$seed == 1,], aes(x = eff4, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none")+ xlim(0,50) + xlab("OM → O")
 
-png("oldnewdata-alt.png", width=1000, height=400)
+png("oldnewdata-alt.png", width=1000*gsf, height=400*gsf, res=72*ressf)
 grid.arrange(m.g1, m.g2, m.g3, m.g4, p.g1, p.g2, p.g3, p.g4, nrow = 2)
 dev.off()
 
-png("oldnewdata-alt-pt.png", width=1000, height=250)
+png("oldnewdata-alt-pt.png", width=1000*gsf, height=250*gsf, res = 72*ressf)
 grid.arrange( p.g1, p.g2, p.g3, p.g4, nrow = 1)
 dev.off()
 
 # plot effective division counts across models
-png("all9.png", width=1000, height=1500)
+png("all9.png", width=1000*gsf, height=1500*gsf, res=72*ressf)
 grid.arrange(arrangeGrob(grobs = subplots1[[1]], left = "old-mito-msh1", nrow=1),
              arrangeGrob(grobs = subplots1[[2]], left = "old-mito-wild", nrow=1),
              arrangeGrob(grobs = subplots1[[3]], left = "new-mito-wild", nrow=1),
@@ -184,13 +188,13 @@ subplots3[[3]][[3]] = subplots2[[5]][[2]]
 subplots3[[3]][[4]] = subplots2[[5]][[3]]
 
 # plot effective division counts across models (just one seed)
-png("olddata-old.png", width=1000, height=500)
+png("olddata-old.png", width=1000*gsf, height=500*gsf, res=72*ressf)
 grid.arrange(arrangeGrob(grobs = subplots2[[1]], left = "MT msh1", nrow=1),
              arrangeGrob(grobs = subplots2[[2]], left = "MT wildtype", nrow=1),
              arrangeGrob(grobs = subplots2[[5]], left = "PT msh1", nrow=1),
              nrow = 3)
 dev.off()
-png("olddata.png", width=1000, height=500)
+png("olddata.png", width=1000*gsf, height=500*gsf, res=72*ressf)
 grid.arrange(arrangeGrob(grobs = subplots3[[1]], left = "MT msh1", nrow=1),
              arrangeGrob(grobs = subplots3[[3]], left = "PT msh1", nrow=1),
              arrangeGrob(grobs = subplots3[[2]], left = "MT wildtype", nrow=1),
@@ -199,7 +203,7 @@ grid.arrange(arrangeGrob(grobs = subplots3[[1]], left = "MT msh1", nrow=1),
 dev.off()
 
 # plot effective division counts across models (just one seed)
-png("oldandnewdata.png", width=1000, height=650)
+png("oldandnewdata.png", width=1000*gsf, height=650*gsf, res=72*ressf)
 grid.arrange(arrangeGrob(grobs = subplots2[[2]], left = "MT wildtype", nrow=1),
              arrangeGrob(grobs = subplots2[[3]], left = "MT wildtype (new)", nrow=1),
              arrangeGrob(grobs = subplots2[[5]], left = "PT msh1", nrow=1),
@@ -225,7 +229,7 @@ true.g2 = ggplot(fulldf[fulldf$exptindex == 3 & fulldf$seed == 1,], aes(x = eff2
 true.g3 = ggplot(fulldf[fulldf$exptindex == 3 & fulldf$seed == 1,], aes(x = eff3, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max)
 true.g4 = ggplot(fulldf[fulldf$exptindex == 3 & fulldf$seed == 1,], aes(x = eff4, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max)
 
-png("mt-pred.png", width=1000, height=400)
+png("mt-pred.png", width=1000*gsf, height=400*gsf, res=72*ressf)
 #grid.arrange(pred.g1, pred.g2, pred.g3, pred.g4, pred1.g1, pred1.g2, pred1.g3, pred1.g4, true.g1, true.g2, true.g3, true.g4, nrow = 3)
 grid.arrange(pred.g1, pred.g2, pred.g3, pred.g4, true.g1, true.g2, true.g3, true.g4, nrow = 2)
 dev.off()
@@ -236,15 +240,15 @@ both$eff2 = both$eff2*sf
 both$eff3 = both$eff3*sf
 both$eff4 = both$eff4*sf
 both = rbind(both, fulldf[fulldf$exptindex == 3 & fulldf$seed == 1,])
-both.g1 = ggplot(both, aes(x = eff1, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O -> EL")
-both.g2 = ggplot(both, aes(x = eff2, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O -> LL")
-both.g3 = ggplot(both, aes(x = eff3, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O -> INF")
-both.g4 = ggplot(both, aes(x = eff4, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("OM -> O")
+both.g1 = ggplot(both, aes(x = eff1, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O → EL")
+both.g2 = ggplot(both, aes(x = eff2, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O → LL")
+both.g3 = ggplot(both, aes(x = eff3, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("O → INF")
+both.g4 = ggplot(both, aes(x = eff4, fill=factor(exptindex))) + geom_histogram(aes(y=..density..), alpha=0.5,position="identity",bins=nbins) + theme_classic() + theme(legend.position="none") + xlim(0,mtplot.max) + xlab("OM → O")
 
-png("mt-pred-alt.png", width=1000, height=250)
+png("mt-pred-alt.png", width=1000*gsf, height=250*gsf, res=72*ressf)
 grid.arrange(both.g1, both.g2, both.g3, both.g4, nrow = 1)
 dev.off()
 
-png("new-pred-both.png", width=1000, height=300)
+png("new-pred-both.png", width=1000*gsf, height=300*gsf, res=72*ressf)
 grid.arrange(both.g1, both.g2, both.g3, both.g4, p.g1, p.g2, p.g3, p.g4, nrow = 2)
 dev.off()

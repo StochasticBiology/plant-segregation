@@ -5,6 +5,8 @@ expts = c("newest-data-old-mito-MSH1", "newest-data-old-mito-WILD", "newest-data
 
 var.plot = data.plot = list()
 
+gsf = 3
+ressf = 4.5
 for(eref in 1:length(expts)) {
 
   expt = expts[eref]
@@ -108,20 +110,20 @@ for(eref in 1:length(expts)) {
 
 empty.plot = ggplot() + theme_void()
 
-png("all-data-plots-newest.png", width=1000, height=1800)
+png("all-data-plots-newest.png", width=1000*gsf, height=1800*gsf, res=72*ressf)
 
 #grid.arrange(data.plot[[1]], data.plot[[2]], data.plot[[3]], data.plot[[4]], data.plot[[5]], nrow=5)
 grid.arrange(data.plot[[1]], data.plot[[2]], data.plot[[3]], data.plot[[4]], nrow=4)
 dev.off()
 
-png("old-data-plots-var-newest.png", width=1000, height=600)
+png("old-data-plots-var-newest.png", width=1000*gsf, height=600*gsf, res=72*ressf)
 grid.arrange(data.plot[[1]], var.plot[[1]], data.plot[[2]], var.plot[[2]], data.plot[[3]], var.plot[[3]], nrow=3)
 dev.off()
 
-png("new-data-plots-var-newest.png", width=1000, height=400)
+png("new-data-plots-var-newest.png", width=1000*gsf, height=400*gsf, res=72*ressf)
 grid.arrange(data.plot[[4]], var.plot[[4]], data.plot[[5]], var.plot[[5]], nrow=2)
 dev.off()
 
-png("all-data-plots-var-newest.png", width=1000, height=600)
+png("all-data-plots-var-newest.png", width=1000*gsf, height=600*gsf, res=72*ressf)
 grid.arrange(data.plot[[1]], var.plot[[1]], data.plot[[6]], var.plot[[6]], data.plot[[7]], var.plot[[7]], nrow=3)
 dev.off()
