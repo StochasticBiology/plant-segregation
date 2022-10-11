@@ -24,4 +24,14 @@ png("sim-pred.png", width=300*sf, height=250*sf, res=72*sf)
 ggplot(sub[sub$ngc %in% c(0, 400),], aes(x=h)) + geom_histogram(binwidth=0.1) + facet_grid(div~ngc) + theme_classic()
 dev.off()
 
+x = 1:200
+df = data.frame(new.n = x, old.n = 50, scale.factor = log(1-1/50)/log(1-1/x))
+df = rbind(df, data.frame(new.n = x, old.n = 7, scale.factor = log(1-1/7)/log(1-1/x)))
+
+df$ratio = df$scale.factor / (df$new.n/df$old.n)
+
+png("scalepopsize.png", width=200*sf, height=200*sf, res=72*sf)
+ggplot(df, aes(x=new.n, y=scale.factor, col=factor(old.n))) + geom_line() + xlab("New n") + ylab("Scale") + labs(col="Old n") + theme_light()
+dev.off()
+
 
