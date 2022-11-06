@@ -120,10 +120,9 @@ fulldf = data.frame()
 # loop through experiments
 for(i in 1:length(expts)) {
   expt = expts[i]
-  prior = priors[i]
   
   # read data from two parallel output files
-  df1 = read.csv(paste(c("outtrjswitch-", expt, ".csv-1-50-100-", prior, "-100000.csv"), collapse=""))
+  df1 = read.csv(paste(c("outtrjswitch-", expt, ".csv-1-50-100-0-100000.csv"), collapse=""))
   df1$seed = 1
   df1$index = 1:nrow(df1)
 
