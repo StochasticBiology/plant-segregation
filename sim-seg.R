@@ -29,7 +29,7 @@ dev.off()
 # second plot -- predicted heteroplasmy distributions for divisions and gene conversion rates
 sub = df[(df$div == 1 | df$div == 10 | df$div == 20 | df$div == 50 ),] 
 png("fig-s5-sim-pred.png", width=300*sf, height=250*sf, res=72*sf)
-ggplot(sub[sub$ngc %in% c(0, 400),], aes(x=h)) + geom_histogram(binwidth=0.1) + facet_grid(div~ngc) + theme_classic()
+ggplot(sub[sub$ngc %in% c(0, 150),], aes(x=h)) + geom_histogram(binwidth=0.1) + facet_grid(div~ngc) + theme_classic()
 dev.off()
 
 # data frame to illustate simplified conversion factor between effective population sizes
