@@ -1,9 +1,6 @@
 # parse Excel data into CSV files of convenient for
 Rscript parse-data.R
 
-# plot summaries of these data
-Rscript plot-data.R
-
 # compile inference code
 gcc -o3 rj-inference.c -lm -o rj-inference.ce -g
 
@@ -40,3 +37,6 @@ cp Data/data-bed* .
 ./rj-inference.ce newest-data-all-plastid-MSH1.csv 1 50 100 0 100000 > tmp/tmpn9.1 &
 ./rj-inference.ce newest-data-all-plastid-MSH1.csv 2 50 100 0 100000 > tmp/tmpn9.2 &
 
+# simulate gene conversion
+gcc -o3 sim-seg.c -lm -o sim-seg.ce
+./sim-seg.ce
