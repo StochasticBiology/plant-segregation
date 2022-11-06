@@ -1,4 +1,4 @@
-# parse Excel data into CSV files of convenient for
+# parse Excel data into CSV files of convenient form
 Rscript parse-data.R
 
 # compile inference code
