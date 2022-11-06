@@ -10,6 +10,9 @@ mkdir tmp/
 # pull test bed data into this folder
 cp Data/data-bed* .
 
+# unzip precomputed PDF file
+gunzip dbtrj-50-100.csv.gz
+
 # run inference on test beds
 ./rj-inference.ce data-bed-1.csv 1 50 100 0 100000 > tmp/tmpb.1 &
 ./rj-inference.ce data-bed-2.csv 1 50 100 0 100000 > tmp/tmpb.2 &
