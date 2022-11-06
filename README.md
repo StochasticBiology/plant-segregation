@@ -1,6 +1,5 @@
 # plant-segregation
-
-Code to infer dynamics of oDNA segregation in plants from experimental data.
+Code to infer dynamics of oDNA segregation in plants from experimental data
 
 Requirements
 ------
