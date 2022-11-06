@@ -2,7 +2,6 @@
 
 library(ggplot2)
 library(gridExtra)
-library(see)
 
 # read output from simulation
 df = read.csv("sim-seg.csv")
