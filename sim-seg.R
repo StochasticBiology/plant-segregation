@@ -20,7 +20,7 @@ for(ngc in unique(df$ngc)) {
 
 # first plot -- heteroplasmy variance with divisions and gene conversion rates
 ga1 = ggplot(dfr, aes(x = div, y = vh, col = factor(ngc))) + geom_line() + xlab("Divisions") + ylab("V(h)") + labs(col = "GC rate\n(AU)") + ylim(0.20,0.252) + xlim(0,100) + theme_classic()
-ga2 = ggplot(dfr, aes(x = div, y = meangc, col = factor(ngc))) + geom_line() + xlab("Divisions") + ylab("Mean GC events\nper oDNA") + labs(col = "GC rate\n(AU)") + xlim(0,100) + theme_classic()
+ga2 = ggplot(dfr, aes(x = div, y = meangc, col = factor(ngc))) + geom_line() + xlab("Divisions") + ylab("Mean GC events\nper oDNA per div") + labs(col = "GC rate\n(AU)") + xlim(0,100) + theme_classic()
 sf = 3
 png("fig-s4-sim-seg.png", width=400*sf, height=150*sf, res=72*sf)
 grid.arrange(ga1, ga2, nrow=1)
