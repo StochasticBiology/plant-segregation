@@ -9,7 +9,7 @@
 #define NSIM 1000    // for sampling
 #define NDIV 300     // maximum number of cell divisions
 #define NPOP 50      // effective population size
-#define MAXGC 400    // maximum gene conversion rate (AU)
+#define MAXGC 150    // maximum gene conversion rate (AU)
 
 int main(void)
 {
