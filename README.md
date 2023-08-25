@@ -19,4 +19,4 @@ Each inference run produces an output CSV files storing posterior samples. These
 
 Update
 ------
-As of March 2023 the repo has been updated with code `plot-posteriors-data-postrev.R` and `run-pruned.sh` which remove an outlying lineage from the dataset and re-run the analysis, producing more plots to describe the system without this lineage.
+As of March 2023 the repo has been updated with code `plot-posteriors-data-postrev.R` and `run-pruned.sh` which remove an outlying lineage from the dataset and re-run the analysis, producing more plots to describe the system without this lineage. In July 2023 various other `-postrev.R` plotting scripts were added to make styling changes to the plots from peer review suggestions.
